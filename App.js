@@ -10,19 +10,30 @@
 //              TouchableHighlight ('focuses' the image if hold)
 // Pressable -> needs no wrapper = can have more than 1 child element
 //           -> style={({ hovered , pressed , focused })}   , direct acces of the state
+// Button -> needs a property title!
+//        -> style does not work on layout properties = needs to be in a wrapper
+//        -> Button is limited to : title , color , onPress
+// Alert -> Alert.alert('Title' , 'Message' , [{text: 'Yes' , onPress: function} , {text: 'No' , onPress: function}])
+//       -> Alert.prompt('Title' , 'Message' , ButtonArray or Callbackfuntion) => only for IOS!!
 
 import { StyleSheet, 
          Text, 
          View , 
          Image, 
          TouchableHighlight,
-         Pressable
-      } from 'react-native';
+         Pressable,
+         Button,
+         Alert
+        } from 'react-native';
 
 // SafeAreaView -> content gets margin top to not be outside of the screen or coverd by the camera
 import { SafeAreaView } from 'react-native-safe-area-context';
 
+import { useState } from 'react';
+
 export default function App() {
+
+  const [color , setColor] = useState('orange');
 
   const handlePress = () => {
     console.log('Text was pressed.');
@@ -58,8 +69,27 @@ export default function App() {
                   padding: 20,
                   borderRadius: 8
                  })}>
-        <View style={{ width: 200 , height: 300 }}></View>
+        <View style={{ width: 200 , height: 50 }}></View>
       </Pressable>
+      <View style={styles.buttonContainer}>
+          <Button title='Alert'
+                  color= {color}
+                  onPress={() => {
+                    setColor(color === 'orange' ? 'blue' : 'orange');
+                    Alert.alert('Hello there :)' , 'Are you a One Piece fan ?' , [
+                      {text: 'Yes' , onPress: () => {console.log('User is a part of the crew.')}} , 
+                      {text: 'No' , onPress: () => {console.log('User has no taste..')}}
+                    ])
+                  }}
+          />
+          <Button title='Prompt'
+                  color= 'red'
+                  onPress={() => {
+                    Alert.prompt('Quick question:' , 'What do you think the One Piece actually is?' , answer => console.log(answer));
+                  }}
+          />
+      </View>
+      
     </SafeAreaView>
   );
 }
@@ -72,4 +102,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     zIndex: 500,
   },
+  buttonContainer: {
+    flexDirection: 'row',
+    columnGap: 10,
+    marginTop: 15
+  }
 });
