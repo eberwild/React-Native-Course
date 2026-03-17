@@ -15,6 +15,8 @@
 //        -> Button is limited to : title , color , onPress
 // Alert -> Alert.alert('Title' , 'Message' , [{text: 'Yes' , onPress: function} , {text: 'No' , onPress: function}])
 //       -> Alert.prompt('Title' , 'Message' , ButtonArray or Callbackfuntion) => only for IOS!!
+// StyleSheet -> StyleSheet.create = validates the passed styling properties 
+//            -> style ={[styles.container , styles.otherContainer]} rightStyling > leftStyling
 
 import { StyleSheet, 
          Text, 
@@ -34,6 +36,7 @@ import { useState } from 'react';
 export default function App() {
 
   const [color , setColor] = useState('orange');
+  const [result , setResult] = useState('');
 
   const handlePress = () => {
     console.log('Text was pressed.');
@@ -77,8 +80,8 @@ export default function App() {
                   onPress={() => {
                     setColor(color === 'orange' ? 'blue' : 'orange');
                     Alert.alert('Hello there :)' , 'Are you a One Piece fan ?' , [
-                      {text: 'Yes' , onPress: () => {console.log('User is a part of the crew.')}} , 
-                      {text: 'No' , onPress: () => {console.log('User has no taste..')}}
+                      {text: 'Yes' , onPress: () => setResult('You are part of the crew!')} , 
+                      {text: 'No' , onPress: () => setResult('You dont seem to have a good taste.')}
                     ])
                   }}
           />
@@ -89,6 +92,8 @@ export default function App() {
                   }}
           />
       </View>
+
+      <Text>{result}</Text>
       
     </SafeAreaView>
   );
