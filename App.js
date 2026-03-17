@@ -8,13 +8,17 @@
 //              TouchableWithoutFeedback (does nothing) , 
 //              TouchableOpacity (reduces opacity for a short time) ,
 //              TouchableHighlight ('focuses' the image if hold)
+// Pressable -> needs no wrapper = can have more than 1 child element
+//           -> style={({ hovered , pressed , focused })}   , direct acces of the state
 
 import { StyleSheet, 
          Text, 
          View , 
          Image, 
          TouchableHighlight,
-         TouchableNativeFeedback} from 'react-native';
+         Pressable
+      } from 'react-native';
+
 // SafeAreaView -> content gets margin top to not be outside of the screen or coverd by the camera
 import { SafeAreaView } from 'react-native-safe-area-context';
 
@@ -48,9 +52,14 @@ export default function App() {
             }}
         />
       </TouchableHighlight>
-      <TouchableNativeFeedback>
-        <View style={{ width: 200 , height: 300 , backgroundColor: 'dodgerblue'}}></View>
-      </TouchableNativeFeedback>
+      <Pressable onPress={() => console.log('Wave!')}
+                 style={({ pressed }) => ({
+                  backgroundColor: pressed ? 'red' : 'dodgerblue',
+                  padding: 20,
+                  borderRadius: 8
+                 })}>
+        <View style={{ width: 200 , height: 300 }}></View>
+      </Pressable>
     </SafeAreaView>
   );
 }
